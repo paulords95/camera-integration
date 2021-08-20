@@ -1,0 +1,43 @@
+body {
+  background-color: rgb(187, 216, 216);
+}
+
+.App {
+  text-align: center;
+  display: flex;
+  align-content: center;
+  justify-content: center;
+  flex-direction: column;
+  margin: 0 auto;
+}
+
+.App > div {
+  width: 100vw;
+}
+.img-div {
+  margin: 0 auto;
+  height: max-content;
+  min-height: 200px;
+  justify-content: center;
+  align-content: center;
+}
+.img-veh {
+  display: flex;
+}
+
+.btn {
+  width: max-content;
+  margin: 0 auto;
+  margin-left: 5px;
+}
+.btns {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  margin-right: 5px;
+  height: max-content;
+}
+
+.btns > div {
+  margin: 5px;
+}

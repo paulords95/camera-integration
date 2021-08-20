@@ -1,0 +1,1 @@
+Acionar webcam dentro do ERP, tirar foto e gravar em uma pasta de rede

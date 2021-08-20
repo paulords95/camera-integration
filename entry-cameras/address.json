@@ -1,0 +1,17 @@
+{
+    "frente": {
+        "xaddr": "192.168.8.36",
+        "user": "admin",
+        "pass": "nuvicam123"
+    },
+    "traseira": {
+        "xaddr": "192.168.8.49",
+        "user": "admin",
+        "pass": "nuvicam123"
+    },
+    "lateral": {
+        "xaddr": "192.168.8.36",
+        "user": "admin",
+        "pass": "nuvicam123"
+    }
+}
