@@ -9,13 +9,13 @@ function FrontPlate() {
   //const [imgSrcBack, setImgSrcBack] = useState("");
   const [loadingFront, setLoadingFront] = useState(false);
   //const [loadingBack, setLoadingBack] = useState(false);
-  const { id } = useParams();
+  const { id, plate } = useParams();
 
   useEffect(() => {
     (async () => {
       setLoadingFront(true);
       const data = await fetch(
-        `http://localhost:1000/onvif/placa-frente/${id}`
+        `http://localhost:1000/onvif/placa-frente/${id}/${plate}`
       );
       const img = await data.json();
       setImgSrcFront(img.toString());
@@ -61,7 +61,7 @@ function FrontPlate() {
                 setLoadingFront(true);
                 setImgSrcFront("");
                 const data = await fetch(
-                  `http://localhost:1000/onvif/placa-frente/${id}`
+                  `http://localhost:1000/onvif/placa-frente/${id}/${plate}`
                 );
                 setImgSrcFront(await data.json());
                 setLoadingFront(false);
@@ -88,7 +88,7 @@ function FrontPlate() {
               Tirar nova foto de trás
             </Button>
             </div>*/}
-          <div>
+          {/*} <div>
             <Button
               className="btn"
               variant="contained"
@@ -114,7 +114,7 @@ function FrontPlate() {
             >
               Gravar Foto
             </Button>
-          </div>
+            </div>*/}
         </div>
       </div>
     </div>

@@ -6,6 +6,7 @@ const mv = require("mv");
 const cors = require("cors");
 
 const currentDate = require("./date");
+const fileExists = require("./save-confirmation/filesExists");
 
 app.use(express.static(path.join(__dirname, "..", "build")));
 
@@ -77,11 +78,13 @@ const saveCNHToPath = (id) => {
 
 app.use("/webcam", require("./driver/driver"));
 
-app.get("/webcam/:id", async (req, res) => {
+app.get("/webcam/:id/:plate", async (req, res) => {
   const { id } = req.params;
+
   takePicture(id + "_CNH")
     .then(async (pic) => {
       const response = await saveCNHToPath(id);
+
       res.json(`${pic}`);
     })
     .catch((e) => {
@@ -90,14 +93,22 @@ app.get("/webcam/:id", async (req, res) => {
     });
 });
 
-app.get("/webcam/save/:id", async (req, res) => {
-  const { id } = req.params;
+app.get("/webcam/save/:id/:plate", async (req, res) => {
+  const { id, plate } = req.params;
 
-  try {
-    const response = await saveCNHToPath(id);
-    res.json(response);
-  } catch (error) {
-    res.json("Erro");
+  const basePath = `\\\\qcolweb01.quimtia.net.br\\c$\\Imagens-entrada-de-veículos\\${currentDate()}\\`;
+  let name = `${plate}_${id}_CNH`;
+  let file = `${basePath}${name}.jpg`;
+
+  if (await fileExists(file)) {
+    try {
+      const response = await saveCNHToPath(id);
+      res.json(response);
+    } catch (error) {
+      res.json("Erro");
+    }
+  } else {
+    res.json("Salvo");
   }
 });
 

@@ -6,11 +6,11 @@ const path = require("path");
 const fullPathAdress = path.resolve("./address.json");
 
 const savePicToPath = require("./saveToPath");
+const fileExists = require("../save-confirmation/filesExists");
+const { response } = require("express");
 
 let rawdata = fs.readFileSync(fullPathAdress);
 let address = JSON.parse(rawdata);
-
-
 
 let frontPlate = new onvif.OnvifDevice({
   xaddr: `http://${address.frente.xaddr}/onvif/device_service`,
@@ -58,13 +58,24 @@ const getSnapshot = (cam, name) => {
   });
 };
 
-router.get("/placa-frente/:id", async (req, res) => {
+router.get("/placa-frente/:id/:plate", async (req, res) => {
   const { id } = req.params;
-  getSnapshot(sidePlate, `${id}_LATERAL`)
-  getSnapshot(frontPlate, `${id}_FRENTE`).then((response) => {
-    const pic1 = `data:image/png;base64, ${response.toString("base64")}`;
-    res.json(pic1);
+  getSnapshot(sidePlate, `${id}_LATERAL`).then(async (response) => {
+    const saveSide = `${id}_LATERAL`;
+    const saveResponseSide = await savePicToPath(saveSide);
   });
+  getSnapshot(frontPlate, `${id}_FRENTE`)
+    .then((response) => {
+      const pic1 = `data:image/png;base64, ${response.toString("base64")}`;
+      res.json(pic1);
+    })
+    .then(async (response) => {
+      const saveFront = `${id}_FRENTE`;
+      const saveBack = `${id}_TRAS`;
+
+      const saveResponse = await savePicToPath(saveFront);
+      const saveResponseBack = await savePicToPath(saveBack);
+    });
 });
 
 router.get("/placa-atras/:id", async (req, res) => {
@@ -82,11 +93,11 @@ router.post("/save/:id", async (req, res) => {
   const saveSide = `${id}_LATERAL`;
   const saveResponse = await savePicToPath(saveFront);
   const saveResponseBack = await savePicToPath(saveBack);
-  const saveResponseSide = await savePicToPath(saveSide)
+  const saveResponseSide = await savePicToPath(saveSide);
   const response = {
     front: saveResponse,
     back: saveResponseBack,
-    side: saveResponseSide
+    side: saveResponseSide,
   };
   res.json(response);
 });

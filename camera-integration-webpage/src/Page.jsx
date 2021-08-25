@@ -7,12 +7,12 @@ import { useParams } from "react-router-dom";
 function FaceCam() {
   const [imgSrc, setImgSrc] = useState("");
   const [loading, setLoading] = useState(false);
-  const { id } = useParams();
+  const { id, plate } = useParams();
 
   useEffect(() => {
     (async () => {
       setLoading(true);
-      const data = await fetch(`http://localhost:1000/webcam/${id}`);
+      const data = await fetch(`http://localhost:1000/webcam/${id}/${plate}`);
       const img = await data.json();
       setImgSrc(img.toString());
       setLoading(false);
@@ -36,7 +36,9 @@ function FaceCam() {
               onClick={async () => {
                 setLoading(true);
                 setImgSrc("");
-                const data = await fetch(`http://localhost:1000/webcam/${id}`);
+                const data = await fetch(
+                  `http://localhost:1000/webcam/${id}/${plate}`
+                );
 
                 setImgSrc(await data.json());
 
@@ -46,14 +48,14 @@ function FaceCam() {
               Tirar nova foto
             </Button>
           </div>
-          <div>
+          {/*<div>
             <Button
               className="btn"
               variant="contained"
               color="primary"
               onClick={async () => {
                 const data = await fetch(
-                  `http://localhost:1000/webcam/save/${id}`
+                  `http://localhost:1000/webcam/save/${id}/${plate}`
                 );
                 if ((await data.json()) === "Salvo") {
                   alert("Salvo com sucesso");
@@ -67,7 +69,7 @@ function FaceCam() {
             >
               Gravar Foto
             </Button>
-          </div>
+            </div>*/}
         </div>
       </div>
     </div>
