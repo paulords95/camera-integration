@@ -79,7 +79,7 @@ const saveCNHToPath = (id) => {
 app.use("/webcam", require("./driver/driver"));
 
 app.get("/webcam/:id/:plate", async (req, res) => {
-  const { id } = req.params;
+  const { id, plate } = req.params;
 
   takePicture(id + "_CNH")
     .then(async (pic) => {

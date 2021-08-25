@@ -3,15 +3,15 @@ import { BrowserRouter, Route, Switch } from "react-router-dom";
 
 import FaceCam from "./Page";
 import FrontPlate from "./FrontPlate";
-import Driver from './Driver'
+import Driver from "./Driver";
 
 function App() {
   return (
     <BrowserRouter>
       <Switch>
-        <Route exact path="/webcam/driver/:id?"  component={Driver} />
-        <Route exact path="/placa-frente/:id?"  component={FrontPlate} />
-        <Route exact path="/webcam/:id?"  component={FaceCam} />
+        <Route exact path="/webcam/driver/:id?/:plate?" component={Driver} />
+        <Route exact path="/placa-frente/:id?/:plate?" component={FrontPlate} />
+        <Route exact path="/webcam/:id?/:plate?" component={FaceCam} />
       </Switch>
     </BrowserRouter>
   );
